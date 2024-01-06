@@ -1,62 +1,52 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import { VApp, VMain, VNavigationDrawer, VList, VListItem, VBtn, VDivider, VIcon } from 'vuetify/lib';
+
+const drawer = ref(true);
+const rail = ref(true);
+const toggleRail = () => {
+  rail.value = !rail.value;
+}
+</script>
+
 <template>
   <v-app>
-    <v-main>
-      <v-container>
-        <UserProfile :user="user" />
-        <v-row>
-          <v-col
-            cols="12"
-            md="4"
-            v-for="project in projects"
-            :key="project.title"
+    <v-navigation-drawer
+      v-model="drawer.value"
+      :rail="rail.value"
+      permanent
+      @click="toggleRail"
+    >
+      <v-list-item
+        prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
+        title="John Leider"
+        nav
+      >
+        <template #append>
+          <v-btn
+            text
+            icon
+            @click.stop="toggleRail"
           >
-            <v-card>
-              <v-card-title>{{ project.title }}</v-card-title>
-              <v-card-text>
-                <v-progress-linear
-                  :value="project.progress"
-                  color="deep-purple"
-                  height="10"
-                ></v-progress-linear>
-                <v-chip>{{ project.deadline }}</v-chip>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn icon>
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-                <v-btn icon>
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
+        </template>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list dense nav>
+        <v-list-item icon="mdi-home-city" title="Home" value="home"></v-list-item>
+        <v-list-item icon="mdi-account" title="My Account" value="account"></v-list-item>
+        <v-list-item icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-main>
+      <!-- Your content here -->
     </v-main>
   </v-app>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue';
-import UserProfile from './components/UserProfile.vue';
-
-const user = {
-  name: 'John Doe',
-  email: 'john@example.com',
-  imageUrl: 'https://via.placeholder.com/150'
-};
-
-const projects = ref([
-  {
-    title: 'Web Designing',
-    progress: 60,
-    deadline: '2 Days Left',
-  },
-  {
-    title: 'Testing',
-    progress: 50,
-    deadline: '2 Days Left',
-  },
-  // เพิ่มโปรเจกต์อื่น ๆ ตามที่คุณต้องการ
-]);
-</script>
+<style>
+/* Add custom styles here */
+</style>
